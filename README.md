@@ -41,6 +41,7 @@ __-프로젝트 참가자__ : 안장현, 황윤상, 이웅기, 김명중
 ### 7. 끝
  : 프로젝트 2 진행
 ***
+![wbs](wbs.png)
 [WBC(작업테이블)](https://docs.google.com/spreadsheets/d/1FERX-ZtqsSrEMwRJI8FLhWq9nbFUzfE75uOCy7pMZB4/edit#gid=0)
 ***
 ### - 일정요약
