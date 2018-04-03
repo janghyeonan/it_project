@@ -9,9 +9,11 @@ readme.md
 
 - 진행 예정사항
 
-1. 프로젝트 주제 선정(황윤상)
+1. 프로젝트 주제 선정()
 2. 목표 설정 
  : 프로젝트로 얻게되는 목표 및 목적 관련
+ WBC :   https://docs.google.com/spreadsheets/d/1FERX-ZtqsSrEMwRJI8FLhWq9nbFUzfE75uOCy7pMZB4/edit#gid=0
+ 
 3. 기획
    :컨셉, 기획, 실행계획 수립
    = 산출물 : 요구사항 기술서, 스토리보드, 메뉴구조도, 착수/중간/완료 보고서
