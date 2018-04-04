@@ -4,11 +4,12 @@ Created on Thu Apr  5 00:20:29 2018
 
 @author: yunsang
 """
-import cv2 
+#conda install -c conda-forge opencv
+import cv2
 import numpy as np  
  
   
-img_color = cv2.imread( 'mal.jpg', cv2.IMREAD_COLOR )  
+img_color = cv2.imread( 'mvposter.jpg', cv2.IMREAD_COLOR )  
   
 img_gray = cv2.cvtColor( img_color, cv2.COLOR_BGR2GRAY )  
   
