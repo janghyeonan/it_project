@@ -44,3 +44,4 @@ for i in mdict.keys(): #딕셔너리에서 글번호만 뽑아 돌림
     print(str(long2)+'개 남음')
 driver.close() #드라이버 닫기
 mdict #결과물확인
+
