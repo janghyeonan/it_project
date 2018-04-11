@@ -1,53 +1,53 @@
-# ¿ÜºÎ ÆĞÅ°Áö ´Ù¿î
+ï»¿# ì™¸ë¶€ íŒ¨í‚¤ì§€ ë‹¤ìš´
 pip install Pillow
 
-# »çÀÌÁî Ãâ·Â
+# ì‚¬ì´ì¦ˆ ì¶œë ¥
 from PIL import Image
-i = Image.open('c:/movie/movie_image1.jpg') #ÆÄÀÏ °æ·Î open
+i = Image.open('c:/movie/movie_image1.jpg') #íŒŒì¼ ê²½ë¡œ open
 width , height = i.size
 print (width, height)
 
 
-# ÀÌ¹ÌÁö »çÀÌÁî Á¶Á¤
+# ì´ë¯¸ì§€ ì‚¬ì´ì¦ˆ ì¡°ì •
 from PIL import Image
 im = Image.open('c:/movie/movie_image2.jpg')
-size = (64,64)      # »çÀÌÁî ¼³Á¤
-im.thumbnail(size)  # ÀÌ¹ÌÁö º¹ÀÚ
-im.save('c:/movie/python-thumb.jpg') # ÀúÀå °æ·Î¼³Á¤ ¹× ÆÄÀÏ¸í ¼³Á¤ÈÄ ÀÌ¹ÌÁö »ı¼º
+size = (64,64)      # ì‚¬ì´ì¦ˆ ì„¤ì •
+im.thumbnail(size)  # ì´ë¯¸ì§€ ë³µì
+im.save('c:/movie/python-thumb.jpg') # ì €ì¥ ê²½ë¡œì„¤ì • ë° íŒŒì¼ëª… ì„¤ì •í›„ ì´ë¯¸ì§€ ìƒì„±
 
 
-# À§¿¡´Â ¿øº» ÀÌ¹ÌÁö¿¡ ±ÕÀÏÇÏ°Ô »çÀÌÁî Á¶Á¤ ¾Æ·¡´Â ÁöÁ¤ÇÑ´ë·Î »çÀÌÁî ¼³Á¤
+# ìœ„ì—ëŠ” ì›ë³¸ ì´ë¯¸ì§€ì— ê· ì¼í•˜ê²Œ ì‚¬ì´ì¦ˆ ì¡°ì • ì•„ë˜ëŠ” ì§€ì •í•œëŒ€ë¡œ ì‚¬ì´ì¦ˆ ì„¤ì •
 im = Image.open('c:/movie/movie_image2.jpg')
-img = im.resize((600,600))  # »çÀÌÁî ¼³Á¤
+img = im.resize((600,600))  # ì‚¬ì´ì¦ˆ ì„¤ì •
 img.save('c:/movie/python-600.jpg')
 
 
-# ÀÌ¹ÌÁö ºÎºĞ Àß¶ó³»±â
+# ì´ë¯¸ì§€ ë¶€ë¶„ ì˜ë¼ë‚´ê¸°
 from PIL import Image
 im = Image.open('c:/movie/movie_image2.jpg')
-cropImage = im.crop((280,300, 800, 600))  # ÀÚ¸¦ »çÀÌÁî À§Ä¡(ÁÂ,»ó,¿ì,ÇÏ)
-cropImage.save('c:/movie/python-crop.jpg') # ÀúÀå°æ·Î ÆÄÀÏ¸í
+cropImage = im.crop((280,300, 800, 600))  # ìë¥¼ ì‚¬ì´ì¦ˆ ìœ„ì¹˜(ì¢Œ,ìƒ,ìš°,í•˜)
+cropImage.save('c:/movie/python-crop.jpg') # ì €ì¥ê²½ë¡œ íŒŒì¼ëª…
 
 
-# ÀÌ¹ÌÁö È¸Àü
+# ì´ë¯¸ì§€ íšŒì „
 im = Image.open('c:/movie/movie_image2.jpg')
-img = im.rotate(90)  # 90µµ È¸ÀÜ
+img = im.rotate(90)  # 90ë„ íšŒì”
 img.save('c:/movie/python-rotate.jpg')
 
 
-# ÀÌ¹ÌÁö ÇÊÅÍ¸µ
+# ì´ë¯¸ì§€ í•„í„°ë§
 from PIL import Image, ImageFilter
 im = Image.open('c:/movie/movie_image2.jpg')
-blurImage = im.filter(ImageFilter.EDGE_ENHANCE_MORE) # ÇÊÅÍ ¼³Á¤
+blurImage = im.filter(ImageFilter.EDGE_ENHANCE_MORE) # í•„í„° ì„¤ì •
 blurImage.save('c:/movie/python-filter.jpg')
 
 
 
-# ÆÄÀÏ¸í º¯°æ
+# íŒŒì¼ëª… ë³€ê²½
 import os
 import glob
-fpath="c:/movie/*.jpg"     #À§Ä¡ & È®Àå¸í
+fpath="c:/movie/*.jpg"     #ìœ„ì¹˜ & í™•ì¥ëª…
 for fpath in glob.glob(fpath):
-    fpath_r=fpath.replace('python','py')   # fpath_r º¯¼ö¿¡ °íÄ¥´Ü¾î ,º¯°æ ´Ü¾î ÀúÀå
+    fpath_r=fpath.replace('python','py')   # fpath_r ë³€ìˆ˜ì— ê³ ì¹ ë‹¨ì–´ ,ë³€ê²½ ë‹¨ì–´ ì €ì¥
     os.rename(fpath,fpath_r)        
 
