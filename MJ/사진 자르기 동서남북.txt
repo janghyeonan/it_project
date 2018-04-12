@@ -1,4 +1,10 @@
-﻿import sys
+﻿wand 패키지 다운
+pip install wand
+
+사이트 접속후 맞는 운영체재로 설치
+http://docs.wand-py.org/en/0.4.4/
+
+import sys
 from wand.image import Image
 import os
 import glob
