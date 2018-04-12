@@ -6,6 +6,8 @@ import re
 import time
 from urllib.request import urlopen, urlretrieve
 from PIL import Image
+from pandas import DataFrame
+import csv
 
 ## 참조사항
 # mdict = {code : [year,title,file]} file : 0(default), 1(poster none), 2(poster ok)
@@ -43,12 +45,17 @@ def information(year1,year2):
                 j += 1 # 다음 페이지    
 
 
+def setCsv():  # mdict -> csv로 파일저장하는 함수
+    global mdict
+    a = DataFrame(mdict,index=['year','title','down']).T
+    a.to_csv('/home/itwill02/project/data/mdict.csvmdict.csv',mode='w',encoding='utf-8') # 저장경로
+
 
 
 # 2nd function
 def posterSucker():
     global mdict
-    driver = webdriver.Chrome("/Users/hbk/data/chromedriver")
+    driver = webdriver.Chrome("/home/itwill02/project/chromedriver")
     long = len(mdict.keys())
     # print(str(mdict.values()[0])+'년도 영화 포스터 파일 수집')
     for i in mdict.keys(): # 딕셔너리에서 글번호를 기준으로 반복문
@@ -63,23 +70,21 @@ def posterSucker():
         except: # 포스터가 있을때
             soup = BeautifulSoup(driver.page_source, 'html.parser') # 소스 가져와서
             with urlopen(soup.find('img',id='targetImage')['src']) as f: # 이미지 테그에서 파일명만 추출
-                with open('/Users/hbk/data/poster/' + i+'.jpg', 'wb') as w: # 이미지 파일 저장
+                with open('/home/itwill02/project/data/poster/' + i+'.jpg', 'wb') as w: # 이미지 파일 저장
                     img = f.read() 
                     w.write(img) # 포스터 파일 저장
                     mdict[str(i)][2] = 2 # 딕셔너리 다운여부값에 포스터 있음 2로 저장
-        
+                    setCsv()
         long -= 1
         print(str(long)+'개 남음')        
-
-
+    
 
 # 3rd function
 def relayDown():
-    from pandas import DataFrame
     global mdict
     a = DataFrame(mdict).T
     relay = a[a[2]==0].index
-    driver = webdriver.Chrome("/Users/hbk/data/chromedriver")
+    driver = webdriver.Chrome("/home/itwill02/project/chromedriver")  # "/home/itwill02/project/chromedriver"
     long = len(relay)
     
     for i in relay:
@@ -94,17 +99,18 @@ def relayDown():
         except: # 포스터가 있을때
             soup = BeautifulSoup(driver.page_source, 'html.parser') # 소스 가져와서
             with urlopen(soup.find('img',id='targetImage')['src']) as f: # 이미지 테그에서 파일명만 추출
-                with open('/Users/hbk/data/poster/' + i+'.jpg', 'wb') as w: # 이미지 파일 저장
+                with open('/home/itwill02/project/data/poster/' + i+'.jpg', 'wb') as w: # 이미지 파일 저장
                     img = f.read() 
                     w.write(img) # 포스터 파일 저장
                     mdict[str(i)][2] = 2 # 딕셔너리 다운여부값에 포스터 있음 2로 저장
-        
+                    setCsv()
         long -= 1
         print(str(long)+'개 남음')
 
         
 if __name__=='__main__':
-    information(2020,2020) # 시작년도, 마지막년도
+    information(2010,2017) # 시작년도, 마지막년도
+    setCsv() # mdict csv로 저장하는 함수
     posterSucker()
     # relayDown() # posterSucker 작동중 중단되었을 때 이어서 포스터 다운받는 함수
 
