@@ -10,8 +10,8 @@ from pandas import DataFrame
 import csv
 
 ## 참조사항
-# mdict = {code : [year,title,file]} file : 0(default), 1(poster none), 2(poster ok)
-# 1st function : mdict(dict)에 키 : 영화코드번호, 값 : 년도, 영화제목, 다운받은여부 값 담는 함수
+# mdict = {code : [year,title,genre,file]} * file : 0(default), 1(poster none), 2(poster ok)
+# 1st function : mdict(dict)에 키 : 영화코드번호, 값 : 년도, 영화제목, 장르, 다운받은여부 값 담는 함수
 # 2nd function : mdict을 입력값으로 받아서 담긴 영화 포스터 다운 받는다
 # 3rd function : 2nd에서 오류발생 및 컴퓨터가 뻗어서 정지가 되면 다운받은 포스터에 이어서 받는 함수
 
@@ -40,7 +40,15 @@ def information(year1,year2):
                 for k in soup.select('#old_content > ul > li'): # j번 페이지에서 각 영화별 페이지글
                     #print(str(long)+'개 남음') 
                     code = re.sub('.[\D]','',k.select_one('a').attrs['href']) # 글번호 추출
-                    mdict[code] = [i,k.select_one('a').get_text(),0] # 키 : 글번호, 값 : 영화제목, 다운받은여부 값
+                    url1 = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code='+str(code)
+                    html1 = urlopen(url1)
+                    soup1 = BeautifulSoup(html1,'html.parser')
+                    lst = soup1.select('dd > p > span > a') 
+                    tup = [] # 장르내용 담을 리스트
+                    for s in lst:
+                        if s['href'].split('?')[1].split('=')[0] == 'genre': # 장르만 추리기
+                            tup.append(s.text)
+                    mdict[code] = [i,k.select_one('a').get_text(),tup,0] # 키 : 글번호, 값 : 년도,영화제목,장르,다운받은여부 값
                     long -= 1
                 j += 1 # 다음 페이지    
 
