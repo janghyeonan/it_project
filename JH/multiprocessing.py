@@ -22,14 +22,6 @@ def get_links():
         data.append(re.sub('.[\D]','',i.select_one('a').attrs['href']))
     return data
 
-
-def get_content(link):
-    abs_link = 'https://beomi.github.io'+link
-    req = requests.get(abs_link)
-    html = req.text
-    soup = bs(html, 'html.parser')
-    print(soup.select('h1')[0].text)
-\
 def gg_content(link):
     driver = webdriver.PhantomJS('/Users/janghyeonan/PythonStudy/phantomjs') #팬텀js 드라이버 경로 선언
     driver.set_page_load_timeout(30)
