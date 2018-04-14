@@ -59,13 +59,14 @@ def information(year1,year2):
 def setCsv(year,mdict):  # mdict -> csv로 파일저장하는 함수
     #global mdict
     a = DataFrame(mdict,index=['year','title','genre','down']).T
-    a.to_csv('/Users/hbk/data/mdict'+str(year)+'.csv',mode='w',encoding='utf-8') # 저장경로
-/home/itwill02/project/data
+    a.to_csv('/home/itwill02/project/data/mdict'+str(year)+'.csv',mode='w',encoding='utf-8') 
+    # gpupc : /home/itwill02/project/data
+
 #information(2019,2020)
 
 
 # information 함수 작동중 멈추면 이어서 받는 함수
-def reInformation(year1,year2): # year1 : csv 저장안된 년도
+def reInformation(year1,year2): # 시작년도, 마지막년도
     for i in range(year1,year2+1): # 년도
         j = 1 # 페이지 수
         text = [] 
@@ -81,12 +82,12 @@ def reInformation(year1,year2): # year1 : csv 저장안된 년도
             else:
                 text = soup.select('#old_content > ul > li')
                 
-                try:
+                try: # 중간에 끊어진 년도는 이어서 받기
                     for k in soup.select('#old_content > ul > li'): # j번 페이지에서 각 영화별 페이지글
                         code = re.sub('.[\D]','',k.select_one('a').attrs['href']) # 글번호 추출
-                        tmp = pd.read_csv("/Users/hbk/data/mdict"+str(i)+".csv")
-                    
-                        if code not in [int(i) for i in tmp['Unnamed: 0'].values]: # 비교해서 코드 없는 놈부터 시작
+                        tmp = pd.read_csv("/home/itwill02/project/data/mdict"+str(i)+".csv")
+                        # 처음다운 받는 년도부터는 오류를 발생하면서 except 으로 이동
+                        if code not in [str(int(i)) for i in tmp['Unnamed: 0'].values]: # 비교해서 코드 없는 놈부터 시작
                             #print(str(j)+'번 페이지 영화 제목 저장 시작')
                             url1 = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code='+str(code)
                             html1 = urlopen(url1)
@@ -99,21 +100,18 @@ def reInformation(year1,year2): # year1 : csv 저장안된 년도
                             mdict[code] = [i,k.select_one('a').get_text(),tup,0] # 키 : 글번호, 값 : 년도,영화제목,장르,다운받은여부 값
 
                 except FileNotFoundError:
-                    information(i,year2)
+                    information(i,year2)  # 처음다운 받는 년도들 
                     return
             j += 1
             
 
-                
-[int(i) for i in pd.read_csv("/Users/hbk/data/mdict2019.csv")['Unnamed: 0'].values]
 
 def setCsv1(year,mdict):  # mdict -> csv로 파일이어서 추가하는 함수
     #global mdict
     a = DataFrame(mdict,index=None).T
-    a.to_csv('/Users/hbk/data/mdict'+str(year)+'.csv',mode='a',encoding='utf-8') # 저장경로
+    a.to_csv('/home/itwill02/project/data/mdict'+str(year)+'.csv',mode='a',encoding='utf-8') # 저장경로
 
 
-reInformation(2019,2020)
 
 
 # 2nd function
