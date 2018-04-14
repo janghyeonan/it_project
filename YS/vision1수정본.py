@@ -7,7 +7,7 @@ Created on Sat Apr 14 22:33:03 2018
 
 import io
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='C:/Users/yunsang/Downloads/My Project 38011-7a5494f5207a.json'
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] =' api 키입력'
 #구글클라우드 불러오기 
 from google.cloud import vision
 from google.cloud.vision import types
