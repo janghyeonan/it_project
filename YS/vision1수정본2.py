@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Apr 14 22:33:03 2018
-
-@author: yunsang
-"""
 import numpy as np
 import cv2
 import matplotlib.image as mpimg
@@ -19,7 +13,7 @@ from google.cloud.vision import types
 # 클라이언트를 인스턴스.
 client = vision.ImageAnnotatorClient()
 # 파일네임 정의 
-file_name =('windstruck.jpg')
+file_name =('her.jpg')
 
 # 로컬에서 이미지 불러들이기
 with io.open(file_name, 'rb') as image_file:
@@ -69,6 +63,25 @@ def detect_text(file):
 
 detect_text(file_name)
 
+
+def plot_colors(hist, centroids):
+    bar = np.zeros((50, 300, 3), dtype="uint8")
+    startX = 0
+    for (percent, color) in zip(hist, centroids):
+        endX = startX + (percent * 300)
+        cv2.rectangle(bar, (int(startX), 0), (int(endX), 50),
+                      color.astype("uint8").tolist(), -1)
+        startX = endX
+    return bar
+
+def centroid_histogram(clt):
+    
+    numLabels = np.arange(0, len(np.unique(clt.labels_)) + 1)
+    (hist, _) = np.histogram(clt.labels_, bins=numLabels)   
+    hist = hist.astype("float")
+    hist /= hist.sum()
+    return hist
+
 def image_color_cluster(file_name, k = 5):
     image = cv2.imread(file_name)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -87,4 +100,4 @@ def image_color_cluster(file_name, k = 5):
 image = mpimg.imread(file_name)
 plt.imshow(image)
 
-image_color_cluster(file_name)  
+image_color_cluster(file_name)
