@@ -22,7 +22,7 @@ len(train[0]) # 30
 
 
 label = data['diagnosis'].values # 라벨값 (B:양성,M:악성)
-tmp = label == 'M'
+tmp = label == 'M' # M : True, B : False
 label = tmp.astype(int) # 수치화(B->0,M->1)
 label.shape = (569,1) # 569행 1열 행렬로 만들어줌(그래야 placeholder 넣을 때 오류 안남)
 label
@@ -38,7 +38,7 @@ Y = tf.placeholder(tf.float32, [None,1]) # 1 : 라벨 컬럼수에 맞춤
 # 은닉층1
 W1 = tf.Variable(tf.random_normal([30,50]), name='weight') # 노드 50개
 b1 = tf.Variable(tf.random_normal([50]), name='bias')
-layer1 = tf.maximum(tf.zeros([569,50],tf.float32),tf.matmul(X,W1)+b1) # ReLu 함수
+layer1 = tf.maximum(tf.zeros([50],tf.float32),tf.matmul(X,W1)+b1) # ReLu 함수
 
 # 은닉층2
 W2 = tf.Variable(tf.random_normal([50,70]), name='weight') # 노드 70개
