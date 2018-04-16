@@ -11,9 +11,10 @@ import time
 from multiprocessing import Pool # Pool import하기
 import re
 from selenium import webdriver #셀레니움 임포트
+llist = []
 
-def get_links(): 
-    req = requests.get('https://movie.naver.com/movie/sdb/browsing/bmovie.nhn?year=2014&page=1')
+def get_links(x): 
+    req = requests.get('https://movie.naver.com/movie/sdb/browsing/bmovie.nhn?year=2014&page=' + x)
     html = req.text
     soup = bs(html, 'html.parser')
     my_titles = soup.select('#old_content > ul > li')
@@ -21,6 +22,10 @@ def get_links():
     for i in my_titles:
         data.append(re.sub('.[\D]','',i.select_one('a').attrs['href']))
     return data
+
+llist.append(get_links(str(3)))
+
+llist[0]
 
 def gg_content(link):
     driver = webdriver.PhantomJS('/Users/janghyeonan/PythonStudy/phantomjs') #팬텀js 드라이버 경로 선언
