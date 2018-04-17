@@ -79,27 +79,15 @@ def img_play(file_name):
 
 
 ###########상영 예정작##########
-#이미지 보여주기
-from PIL import Image
-im = Image.open('/Users/janghyeonan/PythonStudy/youplz.jpg')
-im.show()
-
-##############################
 ffile = '/Users/janghyeonan/PythonStudy/youplz.jpg'
 data = object_detection_go(ffile) ## 사물인식
 data2 =  img_play(ffile)          ## 이미지 컬러 추출 RGB 2개 값
 ##############################
-data
-data2
+ndata = DataFrame(Series(data['item'])).T
+ndata.index = data2.index
+total_data = data2.merge(ndata, left_index=True, right_index = True)
+print(total_data)
+total_data.to_csv('/Users/janghyeonan/PythonStudy/youplz.csv', mode="w", encoding="utf-8")
 
 
-
-
-data['item'].keys()
-data['item'].values()
-ndata = DataFrame(Series(data)).T
-
-ndata = DataFrame(Series(data)).T
-a = a.set_index('id')
-df = df.append(b)    
 

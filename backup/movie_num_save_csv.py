@@ -61,6 +61,7 @@ def information(year1,year2):
                         if s['href'].split('?')[1].split('=')[0] == 'genre': # 장르만 추리기
                             tup.append(s.text)
                     mdict[code] = [i,k.select_one('a').get_text(),tup,0] # 키 : 글번호, 값 : 년도,영화제목,장르,다운받은여부 값
+                    print(k.select_one('a').get_text())
                     #long -= 1
             j += 1 # 다음 페이지    
             setCsv(i,mdict)
@@ -69,8 +70,9 @@ def information(year1,year2):
 def setCsv(year,mdict):  # mdict -> csv로 파일저장하는 함수
     #global mdict
     a = DataFrame(mdict,index=['year','title','genre','down']).T
-    a.to_csv('/home/itwill02/project/data/mdict'+str(year)+'.csv',mode='w',encoding='utf-8') # 저장경로
+    a.to_csv('/Users/janghyeonan/PythonStudy/mdict'+str(year)+'.csv',mode='w',encoding='utf-8') # 저장경로
 
+############
 information(2019,2020)
 
 
