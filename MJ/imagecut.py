@@ -68,9 +68,11 @@ class Imagedel:
     
 
 class imagecut(Image4cut,Imagedel):        # 위에 두개의 클래스 합쳐놓은거
-    def guide(self):                        # 가이드라인 함수
-        print("image4cut(파일위치,저장위치,사이즈)")
-        print("imagedel(삭제위치,삭제할사이즈)")
+    def guide(self):        # 가이드라인 함수
+        print("ex)")
+        print("변수=imagecut()")
+        print("변수.image4cut(파일위치,저장위치,사이즈)")
+        print("변수.imagedel(삭제위치,삭제할사이즈)")
     
 
 if __name__=='__main__':                            # 모듈 설정
