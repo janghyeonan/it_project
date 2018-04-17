@@ -95,8 +95,9 @@ def run_inference_for_single_image(image, graph):
         output_dict['detection_masks'] = output_dict['detection_masks'][0]
   return output_dict
 
-Ndict_l = {}
-def ttt(urll): 
+
+def object_detection_go(urll): 
+    Ndict_l = {}
     image = Image.open(urll)    
     with detection_graph.as_default():
       with tf.Session(graph=detection_graph) as sess:        
@@ -118,8 +119,7 @@ def ttt(urll):
         objects = []
         for index, value in enumerate(classes[0]):          
           if scores[0, index] > threshold:
-            objects.append((category_index.get(value)).get('name'))        
-        global Ndict_l
+            objects.append((category_index.get(value)).get('name'))                
         Ndict ={}
         for i in objects:
             if i in Ndict.keys() :
@@ -127,17 +127,10 @@ def ttt(urll):
             else:
                 Ndict[i] = 1 
         Ndict_l['id'] = urll.split('/')[4].split('.')[0]
-        Ndict_l['item'] = Ndict
-        print(Ndict_l)
+        Ndict_l['item'] = Ndict        
         return Ndict_l
 
-
-import os
-import time
-import glob
-from multiprocessing import Pool # Pool import하기
-
-start_time = time.time()
-pool = Pool(processes=4) # 4개의 프로세스를 사용합니다.
-pool.map(ttt, glob.glob('/Users/janghyeonan/PythonStudy/*.jpg'))
-print("--- %s seconds ---" % (time.time() - start_time))
+###########상영 예정작########## 사물인식
+#data = object_detection_go('/Users/janghyeonan/PythonStudy/youplz.jpg')
+#print(data)
+##############################3

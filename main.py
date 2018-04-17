@@ -39,4 +39,67 @@ Created on Mon Apr 16 14:15:44 2018
 #8. 모델에 적용, 결과 도출
 
 
+#####################
+import cv2
+import time
+from sklearn.cluster import KMeans
+import pandas as pd
+from pandas import Series, DataFrame
+import time
+
+def image_color_cluster(file_name):
+    image = cv2.imread(file_name)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = image.reshape((image.shape[0] * image.shape[1], 3))
+    clt = KMeans(n_clusters=2)
+    clt.fit(image)
+    ccc = []
+    for center in clt.cluster_centers_:
+        ccc.append(center)
+    return ccc
+
+def img_play(file_name):
+    df = DataFrame()
+    start_time = time.time()
+    file_name =(file_name)
+    a = image_color_cluster(file_name)
+    print('===== 컬러 추출시간%s초 걸림======' % (int(time.time() - start_time)))
+    rgb_dict = {}
+    rgb_dict['id'] = file_name.split('/')[4].split('.')[0]
+    rgb_dict['r1'] = int(a[0][0])
+    rgb_dict['g1'] = int(a[0][1])
+    rgb_dict['b1'] = int(a[0][2])
+    rgb_dict['r2'] = int(a[1][0])
+    rgb_dict['g2'] = int(a[1][1])
+    rgb_dict['b2'] = int(a[1][2])    
+    b = DataFrame(Series(rgb_dict)).T
+    b = b.set_index('id')
+    df = df.append(b)    
+    return df
+
+
+###########상영 예정작##########
+#이미지 보여주기
+from PIL import Image
+im = Image.open('/Users/janghyeonan/PythonStudy/youplz.jpg')
+im.show()
+
+##############################
+ffile = '/Users/janghyeonan/PythonStudy/youplz.jpg'
+data = object_detection_go(ffile) ## 사물인식
+data2 =  img_play(ffile)          ## 이미지 컬러 추출 RGB 2개 값
+##############################
+data
+data2
+
+
+
+
+data['item'].keys()
+data['item'].values()
+ndata = DataFrame(Series(data)).T
+
+ndata = DataFrame(Series(data)).T
+a = a.set_index('id')
+df = df.append(b)    
 
