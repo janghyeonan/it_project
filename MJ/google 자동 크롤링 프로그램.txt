@@ -1,0 +1,13 @@
+﻿1.https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf?hl=ko
+Chrome "웹스토어 접속후 Fatkun 다운로드"
+
+2.google "도메인 창에 (영화 포스터 -패러디) 검색 후 이미지창 클릭"
+
+3."도메인 우측 상단에 Fankun 아이콘 클릭후 [모든 탭] 과 [이 탭] 중에 이탭 클릭"
+
+4."상단에 기타옵션 창 클릭후 이미지 변수 설정"
+ ex) imeges{NO} 	
+
+{NO}"는 시퀀스 번호"
+
+5."저장경로 설정후 이미지 저장 클릭하면 끝"
