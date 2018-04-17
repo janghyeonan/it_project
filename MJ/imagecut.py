@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Apr 13 18:50:40 2018
+Created on Tue Apr 17 09:59:38 2018
 
 @author: STU
 """
-
 
 class Image4cut:
     def image4cut(self,file1,filesave1,size):       # 파일위치,저장위치
@@ -24,7 +23,7 @@ class Image4cut:
 
             with Image(filename = oldfilename) as image:
                 height=image.size[1] 
-                if height>=int(size):     # 세로 사이즈가 500 이상일때 처리
+                if height>=int(size):     # 세로 사이즈가 설정값 이상일때 처리
                     print("old : {0} , {1}".format(image.format , image.size))
                     
                     cropHeight = int(image.height/row) #조각별 세로길이
@@ -79,8 +78,3 @@ class imagecut(Image4cut,Imagedel):
 if __name__=='__main__':                            # 모듈 설정
     print("image4cut(파일위치,저장위치,사이즈)")
     print("imagedel(삭제위치,삭제할사이즈)")
-
-
-
-
-
