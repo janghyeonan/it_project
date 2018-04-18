@@ -21,7 +21,7 @@ train
 len(train[0]) # 30
 
 
-label = data['diagnosis'].values # 라벨값 (B:양성,M:악성)
+label = data['diagnosis'].values # 라벨값 (B : 양성, M : 악성)
 tmp = label == 'M' # M : True, B : False
 label = tmp.astype(int) # 수치화(B->0,M->1)
 label.shape = (569,1) # 569행 1열 행렬로 만들어줌(그래야 placeholder 넣을 때 오류 안남)
@@ -79,6 +79,9 @@ def deepPoster(train,label):
     
 
 
+================
+
+# 김승혁
 
 
 
