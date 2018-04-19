@@ -88,19 +88,21 @@ def posterSucker(mn):
 csv_read_list(2018)
 print(csv_read_list1(2018))
 
+
+
 #원래 포문
 start_time1 = time.time()  
 for i in csv_read_list1(2018)[0:15]:
     posterSucker(i)
 print("--- %s seconds ---" % (time.time() - start_time1))
 
-csv_read_list1(2018)[0:10]
+
+
 #멀티프로세싱
 start_time = time.time()  
 pool = Pool(processes=8)
 pool.map(posterSucker, csv_read_list1(2018)[51:90])
 print("--- %s seconds ---" % (time.time() - start_time))
-
 
 ##############################################################
 

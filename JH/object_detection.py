@@ -131,6 +131,9 @@ def object_detection_go(urll):
         return Ndict_l
 
 ###########상영 예정작########## 사물인식
-#data = object_detection_go('/Users/janghyeonan/PythonStudy/youplz.jpg')
-#print(data)
-##############################3
+
+data1 = object_detection_go('/Users/janghyeonan/PythonStudy/youplz.jpg')
+data2 = object_detection_go('/Users/janghyeonan/PythonStudy/mnb.jpg')
+data3 = object_detection_go('/Users/janghyeonan/PythonStudy/leon.jpg')
+
+##############################
