@@ -31,7 +31,7 @@ main.py파일과 같은 위치에 Chrome driver 또는 phantomjs driver 파일�
 
 :아래에 파일명에 따른 경로 설정 내용을 설명하겠다.
 
-##module >merge_csv.py
+## module >merge_csv.py
 
 data = pd.read_csv("/home/itwill02/project/test/data/"+str(i)+".csv")  -  data폴더로 지정
 
@@ -40,7 +40,7 @@ data1 = pd.read_csv("/home/itwill02/project/test/data/mdict"+str(i)+".csv") -  d
 a1.to_csv('/home/itwill02/project/test/data/'+str(i)+'.csv',mode='w',encoding='utf-8')   -  data폴더로 지정
 
 
-##module >img_text_change.py
+## module >img_text_change.py
 
 sys.path.append('/home/itwill02/models/research') -models 경로
 
@@ -55,7 +55,7 @@ file_name = '/home/itwill02/project/data/poster1/'+i   -  data폴더로 지정
 df.to_csv("/home/itwill02/project/data/poster1/od_d.csv",mode="w",encoding="utf-8")   -  data폴더로 지정
 
 
-##module >img_save.py
+## module >img_save.py
 
 data = csv.reader(open('/home/itwill02/project/test/mdict'+str(year)+'.csv', 'r')) #csv 저장할 폴더 지정
 
@@ -66,7 +66,7 @@ driver = webdriver.PhantomJS("/home/itwill02/project/phantomjs")     #pahntomjs�
 with open('/home/itwill02/project/data/poster1/' + str(mn)+'.jpg', 'wb') as w: #이미지 파일 저장 폴더 지정  data폴더로 지정
 
 
-##main.py
+## main.py
 
 sys.path.append('/home/itwill02/project/test/module')  - 이 부분은 모듈 경로를 써준다.
 
