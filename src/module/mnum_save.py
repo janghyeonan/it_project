@@ -2,22 +2,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Apr 14 01:41:20 2018
-크롤링 수정본
 """
-#수정본 아니잖아
-#뭐야 나 작업하는거 뺏어가고 
-#태효 해라 그냥 난 잘란다.
-#컴퓨터 안꺼지게 잘해라
-
-from bs4 import BeautifulSoup # BeautifulSoup 임포트
-from selenium import webdriver # 셀레니움 임포트
+from bs4 import BeautifulSoup
 import re
-import time
 from urllib.request import urlopen, urlretrieve
-from PIL import Image
 from pandas import DataFrame
-import pandas as pd
-import csv
 
 ## 참조사항
 # mdict = {code : [year,title,genre,file]} * file : 0(default), 1(poster none), 2(poster ok)
@@ -30,7 +19,7 @@ import csv
 mdict = {}
 
 # 1st function
-def information(year1,year2):
+def information(year1,year2,ppath):
     
     for i in range(year1,year2+1): # 년도
         j = 1 # 페이지 수
@@ -61,18 +50,14 @@ def information(year1,year2):
                         if s['href'].split('?')[1].split('=')[0] == 'genre': # 장르만 추리기
                             tup.append(s.text)
                     mdict[code] = [i,k.select_one('a').get_text(),tup,0] # 키 : 글번호, 값 : 년도,영화제목,장르,다운받은여부 값
-                    print(k.select_one('a').get_text())
                     #long -= 1
             j += 1 # 다음 페이지    
-            setCsv(i,mdict)
+            setCsv(i,mdict, ppath)
 
-
-def setCsv(year,mdict):  # mdict -> csv로 파일저장하는 함수
+def setCsv(year,mdict, ppath):  # mdict -> csv로 파일저장하는 함수
     #global mdict
     a = DataFrame(mdict,index=['year','title','genre','down']).T
-    a.to_csv('/Users/janghyeonan/PythonStudy/mdict'+str(year)+'.csv',mode='w',encoding='utf-8') # 저장경로
+    a.to_csv(ppath+'mdict'+str(year)+'.csv',mode='w',encoding='utf-8') # 저장경로
 
-############
-information(2019,2020)
-
-
+if __name__=='__main__':
+    information(2019,2020,'/home/itwill02/project/test/')

@@ -4,19 +4,21 @@ Spyder Editor
 
 This is a temporary script file.
 """
+
 import sys
-sys.path
 sys.path.append('/home/itwill02/models/research') #path 경로 꼭 확인
 sys.path.append('/home/itwill02/models/research/object_detection/utils')
-
+from pandas import Series, DataFrame
 import numpy as np
 import os
 import six.moves.urllib as urllib
 import tarfile
 import tensorflow as tf
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 from PIL import Image
 from object_detection.utils import ops as utils_ops
+import cv2
+from sklearn.cluster import KMeans
 
 if tf.__version__ < '1.4.0':
   raise ImportError('Please upgrade your tensorflow installation to v1.4.* or later!')
@@ -58,7 +60,6 @@ with detection_graph.as_default():
     tf.import_graph_def(od_graph_def, name='')
 
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
-PATH_TO_LABELS
 categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
@@ -71,10 +72,9 @@ def load_image_into_numpy_array(image):
 # image1.jpg
 # image2.jpg
 # If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
-PATH_TO_TEST_IMAGES_DIR = 'test_images'
+
 
 #TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 3) ]
-TEST_IMAGE_PATHS = ['/home/itwill02/models/research/object_detection/test_images/image1.jpg', '/home/itwill02/models/research/object_detection/test_images/image1.jpg'] ##이렇게 변경
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
@@ -126,29 +126,6 @@ def run_inference_for_single_image(image, graph):
   return output_dict
 
 
-for image_path in TEST_IMAGE_PATHS:
-  image = Image.open(image_path)
-  # the array based representation of the image will be used later in order to prepare the
-  # result image with boxes and labels on it.
-  image_np = load_image_into_numpy_array(image)
-  # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-  image_np_expanded = np.expand_dims(image_np, axis=0)
-  # Actual detection.
-  output_dict = run_inference_for_single_image(image_np, detection_graph)
-  # Visualization of the results of a detection.
-  vis_util.visualize_boxes_and_labels_on_image_array(
-      image_np,
-      output_dict['detection_boxes'],
-      output_dict['detection_classes'],
-      output_dict['detection_scores'],
-      category_index,
-      instance_masks=output_dict.get('detection_masks'),
-      use_normalized_coordinates=True,
-      line_thickness=8)
-  plt.figure(figsize=IMAGE_SIZE)
-  plt.imshow(image_np)
-
-Ndict_l = {}
 def ttt(urll): 
     image = Image.open(urll)    
     with detection_graph.as_default():
@@ -164,44 +141,64 @@ def ttt(urll):
         (boxes, scores, classes, num) = sess.run([detection_boxes, detection_scores, detection_classes, num_detections], feed_dict={image_tensor: image_np_expanded})
         vis_util.visualize_boxes_and_labels_on_image_array(image_np,np.squeeze(boxes),np.squeeze(classes).astype(np.int32), np.squeeze(scores), category_index, use_normalized_coordinates=True,line_thickness=8)
         
-        plt.figure(figsize=IMAGE_SIZE)
-        plt.imshow(image_np)
+        #plt.figure(figsize=IMAGE_SIZE)
+        #plt.imshow(image_np)
         
         threshold = 0.5
         objects = []
         for index, value in enumerate(classes[0]):          
           if scores[0, index] > threshold:
-            objects.append((category_index.get(value)).get('name'))        
-        #global Ndict_l
+            objects.append((category_index.get(value)).get('name'))                
         Ndict ={}
+        Ndict['id'] = urll.split('/')[6].split('.')[0]
         for i in objects:
             if i in Ndict.keys() :
                 Ndict[i] += 1
             else:
-                Ndict[i] = 1                
-        #Ndict_l['id'] = urll.split('/')[6].split('.')[0]
-        #Ndict_l['item'] = Ndict
-        print(Ndict)
-#        return Ndict
+                Ndict[i] = 1         
+        return Ndict
 
-a = ttt('/home/itwill02/project/data/poster/32972.jpg')
-a
 
-cnt = 0
-for i in (os.listdir('/home/itwill02/project/data/poster')):
-    ttt('/home/itwill02/project/data/poster/'+i)        
-    print(cnt,i )
-    cnt += 1
-    if cnt == 100:
-        break
+####컬러 추출 
 
-#
-import glob
-import time
-from multiprocessing import Pool
-file = "/home/itwill02/project/data/poster/*.jpg"
-file_list=glob.glob(file)
-start_time = time.time()  
-pool = Pool(processes=8)
-pool.map(ttt, file_list[0:11])
-#print("--- %s seconds ---" % (time.time() - start_time))
+
+#file_name =('/Users/janghyeonan/PythonStudy/war.jpg')
+#file_name =('/home/itwill02/project/data/poster1/101966.jpg')
+def find_color(file_name):
+    image = cv2.imread(file_name)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    image = image.reshape((image.shape[0] * image.shape[1], 3)) # height, width 통합
+    clt = KMeans(n_clusters = 2)
+    clt.fit(image)    
+    listt = []
+    for center in clt.cluster_centers_:
+        for i in center:
+            listt.append(int(i))    
+    ldict={'r1' : listt[0],'g1' : listt[1],'b1' : listt[2],'r2' : listt[3],'g2' : listt[4],'b2' : listt[5]}
+    return ldict
+
+###############################사물인식 정보 csv 파일에 저장구문##########
+def data_text_csv():    
+    cnt = len(os.listdir('/home/itwill02/project/data/poster1'))
+    error =[]
+    df = DataFrame()
+    for i in (os.listdir('/home/itwill02/project/data/poster1')):        
+        print(cnt,'남음, 파일명 : ',i )
+        try:
+            file_name = '/home/itwill02/project/data/poster1/'+i
+            a = ttt(file_name)        
+            lli = find_color(file_name)        
+            for i,k in lli.items():
+                a[i] = k
+            print(a)
+            b = DataFrame(Series(a)).T
+            df=df.append(b)
+            df.to_csv("/home/itwill02/project/data/poster1/od_d.csv",mode="w",encoding="utf-8")        
+        except:
+            print(cnt,'남음, 문제의 파일=======> ',i)
+            error.append(i)    
+        cnt -= 1
+        if cnt == 0:
+            break  
+    print('데이터 수집 및 정제 완료!')
+    return error
